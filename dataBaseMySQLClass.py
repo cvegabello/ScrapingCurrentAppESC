@@ -32,6 +32,15 @@ class DataBase:
         except Exception as e:
             raise
 
+    def execStoreProcNoRecords(self, spStr, Arg):
+        try:
+            self.cursor.callproc(spStr,Arg)
+            self.connection.commit()
+            
+        except Exception as e:
+            raise
+
+
     def close(self):
         self.connection.close()
         

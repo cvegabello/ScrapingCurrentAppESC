@@ -71,12 +71,17 @@ driver.quit()
 
 #Database
 database = DataBase()
-sqlStr = "DELETE FROM terminal_application"
-database.queryNoRecords(sqlStr)
+arg = []
+database.execStoreProcNoRecords("deleteTerminalApp", arg)
+# sqlStr = "DELETE FROM terminal_application"
+# database.queryNoRecords(sqlStr)
 
 for i in range(numElements):
-    sqlStr = "INSERT INTO boardinfony.terminal_application (application_name, version, update_datetime) VALUES ('{}', '{}', '{}')".format(appsNameListStr[i], appsShortVersionListStr[i], appsLastSubmitListStr[i])
-    database.queryNoRecords(sqlStr)
+    arg = [appsNameListStr[i], appsShortVersionListStr[i], appsLastSubmitListStr[i]]
+    database.execStoreProcNoRecords("insert_terminal_app", arg)
+
+    # sqlStr = "INSERT INTO boardinfony.terminal_application (application_name, version, update_datetime) VALUES ('{}', '{}', '{}')".format(appsNameListStr[i], appsShortVersionListStr[i], appsLastSubmitListStr[i])
+    # database.queryNoRecords(sqlStr)
 
 database.close()
 
