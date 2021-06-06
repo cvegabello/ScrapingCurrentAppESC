@@ -12,7 +12,7 @@ class DataBase:
                 db= 'boardinfony'
             )
             self.cursor = self.connection.cursor()
-            print("connection successful")
+            # print("connection successful")
         except Error as ex:
             print("Connection error:", ex)
     

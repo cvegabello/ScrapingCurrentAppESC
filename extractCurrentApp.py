@@ -1,10 +1,9 @@
 from dataBaseMySQLClass import DataBase
+from registerWindowsClass import WinRegistry
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 #import pandas as pd
 import time
-import pymysql
-from pymysql import Error
 from datetime import datetime
 
 
@@ -85,8 +84,13 @@ for i in range(numElements):
 
 database.close()
 
+#Read Registry windows
+registry = WinRegistry()
+pathStr = registry.readRegistry("InfoBoard", 0)
+
 # Create File Flag
-with open("//10.5.165.84/SharedFolderBoard/flagFileAppVersion.txt", "w" , encoding="utf-8") as f:
+with open(pathStr + "/flagFileAppVersion.txt", "w" , encoding="utf-8") as f:
+# with open("//10.5.165.84/SharedFolderBoard/flagFileAppVersion.txt", "w" , encoding="utf-8") as f:
     f.write(str(datetime.now) + ": Ready Version Terminal")
     f.close
 
