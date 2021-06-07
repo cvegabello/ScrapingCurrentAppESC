@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import Select
 #import pandas as pd
 import time
 from datetime import datetime
-
+import emailFuctions
 
 # definer pagina a scrapear y ruta donde descargaste chromediver
 website = 'http://nypdcweb/escadmin/Login.do'
@@ -93,6 +93,10 @@ with open(pathStr + "/flagFileAppVersion.txt", "w" , encoding="utf-8") as f:
 # with open("//10.5.165.84/SharedFolderBoard/flagFileAppVersion.txt", "w" , encoding="utf-8") as f:
     f.write(str(datetime.now) + ": Ready Version Terminal")
     f.close
+
+
+emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com, naim.adams2@igt.com","Email using Python","test_email_html.html", ["pexels-pixabay-270360.jpg"])
+
 
 
 # Pandas
