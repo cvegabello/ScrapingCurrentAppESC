@@ -7,6 +7,7 @@ import pandas as pd
 import time
 from datetime import datetime
 import emailFuctions
+from pretty_html_table import build_table
 
 # definer pagina a scrapear y ruta donde descargaste chromediver
 website = 'http://nypdcweb/escadmin/Login.do'
@@ -109,12 +110,13 @@ df = pd.DataFrame({'Application Name': app_name, 'Version': version, 'Last Submi
 df_order_by_date = df.sort_values("Last Submission Date",ascending=False)
 print(df_order_by_date)
 df_order_by_date.to_csv('apps.csv', index=False)
-body_table = df_order_by_date.to_html(index=False)
+# body_table = df_order_by_date.to_html(index=False)
+output = build_table(df_order_by_date, 'red_light', font_size='14px',  width='100px')
 
 
 #emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Email using Python","test_email_html.html", ["pexels-pixabay-270360.jpg", "apps.csv"])
 #emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Email using Python", body_table, ["apps.csv"])
-emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Email using Python", body_table, ["apps.csv"])
+emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Email using Python", output, ["apps.csv"])
 
 
 
