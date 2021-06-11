@@ -1,8 +1,9 @@
+from pandas.io.formats import style
 from dataBaseMySQLClass import DataBase
 from registerWindowsClass import WinRegistry
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
-#import pandas as pd
+import pandas as pd
 import time
 from datetime import datetime
 import emailFuctions
@@ -75,9 +76,17 @@ database.execStoreProcNoRecords("deleteTerminalApp", arg)
 # sqlStr = "DELETE FROM terminal_application"
 # database.queryNoRecords(sqlStr)
 
+app_name = []
+version = []
+last_submit = []
+
 for i in range(numElements):
     arg = [appsNameListStr[i], appsShortVersionListStr[i], appsLastSubmitListStr[i]]
     database.execStoreProcNoRecords("insert_terminal_app", arg)
+    app_name.append(appsNameListStr[i])
+    version.append(appsShortVersionListStr[i])
+    last_submit.append(appsLastSubmitListStr[i])
+
 
     # sqlStr = "INSERT INTO boardinfony.terminal_application (application_name, version, update_datetime) VALUES ('{}', '{}', '{}')".format(appsNameListStr[i], appsShortVersionListStr[i], appsLastSubmitListStr[i])
     # database.queryNoRecords(sqlStr)
@@ -95,12 +104,18 @@ with open(pathStr + "/flagFileAppVersion.txt", "w" , encoding="utf-8") as f:
     f.close
 
 
-emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com, naim.adams2@igt.com","Email using Python","test_email_html.html", ["pexels-pixabay-270360.jpg"])
-
-
-
 # Pandas
-# df = pd.DataFrame({'applications':applications})
-# print(df)
-#df.to_csv('apps.csv', index=False)
+df = pd.DataFrame({'Application Name': app_name, 'Version': version, 'Last Submission Date': last_submit })
+df_order_by_date = df.sort_values("Last Submission Date",ascending=False)
+print(df_order_by_date)
+df_order_by_date.to_csv('apps.csv', index=False)
+body_table = df_order_by_date.to_html(index=False)
+
+
+#emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Email using Python","test_email_html.html", ["pexels-pixabay-270360.jpg", "apps.csv"])
+#emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Email using Python", body_table, ["apps.csv"])
+emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Email using Python", body_table, ["apps.csv"])
+
+
+
 

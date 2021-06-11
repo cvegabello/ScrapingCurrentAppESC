@@ -2,7 +2,7 @@
 import smtplib
 from email.message import EmailMessage
 
-def send_email_bodyHtml(host, sender, receiver, subject, body_html, attachedsFileName) -> None:
+def send_email_bodyHtml_externalHTMLFile(host, sender, receiver, subject, body_html, attachedsFileName) -> None:
     msg = EmailMessage()
     msg['from'] = sender
     msg['to'] = receiver
@@ -18,6 +18,24 @@ def send_email_bodyHtml(host, sender, receiver, subject, body_html, attachedsFil
     with smtplib.SMTP(host)as smtp:
         smtp.send_message(msg)
         smtp.quit
+
+
+def send_email_bodyHtml(host, sender, receiver, subject, body_html, attachedsFileName) -> None:
+    msg = EmailMessage()
+    msg['from'] = sender
+    msg['to'] = receiver
+    msg['subject'] = subject
+    msg.add_alternative(body_html, subtype='html')
+    for attachedFileName in attachedsFileName:
+        with open(attachedFileName, 'rb') as content_file:
+            content = content_file.read()
+            msg.add_attachment(content, maintype='application', subtype='', filename = attachedFileName)
+
+#"156.24.14.132"
+    with smtplib.SMTP(host)as smtp:
+        smtp.send_message(msg)
+        smtp.quit
+
 
 def send_email_bodyText(host, sender, receiver, subject, bodyText, attachedsFileName) -> None:
     msg = EmailMessage()
