@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import Select
 import pandas as pd
 import time
 from datetime import datetime
+from datetime import date
 import emailFuctions
 from pretty_html_table import build_table
 
@@ -101,23 +102,21 @@ pathStr = registry.readRegistry("InfoBoard", 0)
 # Create File Flag
 with open(pathStr + "/flagFileAppVersion.txt", "w" , encoding="utf-8") as f:
 # with open("//10.5.165.84/SharedFolderBoard/flagFileAppVersion.txt", "w" , encoding="utf-8") as f:
-    f.write(str(datetime.now) + ": Ready Version Terminal")
+    f.write("Ready Version Terminal")
     f.close
 
 
 # Pandas
 df = pd.DataFrame({'Application Name': app_name, 'Version': version, 'Last Submission Date': last_submit })
 df_order_by_date = df.sort_values("Last Submission Date",ascending=False)
-print(df_order_by_date)
-df_order_by_date.to_csv('apps.csv', index=False)
-# body_table = df_order_by_date.to_html(index=False)
-output = build_table(df_order_by_date, 'red_light', font_size='14px',  width='100px')
+# print(df_order_by_date)
 
+#Pretty table
+html_table_blue_light = build_table(df_order_by_date, 'blue_light', font_size='13px', text_align='', width='150px')
+with open('pretty_table.html', 'w') as f:
+    f.write(html_table_blue_light)
 
-#emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Email using Python","test_email_html.html", ["pexels-pixabay-270360.jpg", "apps.csv"])
-#emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Email using Python", body_table, ["apps.csv"])
-emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Email using Python", output, ["apps.csv"])
-
-
-
-
+#Send the email with the pretty table
+today = date.today()
+date_now_dt= today.strftime("%m/%d/%Y")
+emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Current Applications '{}'".format(date_now_dt), html_table_blue_light, [])
