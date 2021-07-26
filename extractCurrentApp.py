@@ -119,4 +119,4 @@ with open('pretty_table.html', 'w') as f:
 #Send the email with the pretty table
 today = date.today()
 date_now_dt= today.strftime("%m/%d/%Y")
-emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Current Applications '{}'".format(date_now_dt), html_table_blue_light, [])
+emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com, #NYOPS@IGT.com","Current Applications '{}'".format(date_now_dt), html_table_blue_light, [])
