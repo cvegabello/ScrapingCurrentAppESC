@@ -1,8 +1,9 @@
-from pandas.io.formats import style
+# from pandas.io.formats import style
 from dataBaseMySQLClass import DataBase
 from registerWindowsClass import WinRegistry
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
+# from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import time
 from datetime import datetime
@@ -10,12 +11,18 @@ from datetime import date
 import emailFuctions
 from pretty_html_table import build_table
 
+
+
 # definer pagina a scrapear y ruta donde descargaste chromediver
 website = 'http://nypdcweb/escadmin/Login.do'
+# path = 'C:/Users/cvegabello/Documents/VisualStudio2008/Projects/scrapingCurrentAppESC/chromedriver'
 path = './chromedriver' #escribe tu ruta aqui
 
+# print(path) 
+# time.sleep(5)
 # definer variable 'driver'
 driver = webdriver.Chrome(path)
+# driver = webdriver.Chrome(ChromeDriverManager(version="92.0.4515.107").install())
 # abrir Google Chrome mediante chromedriver
 driver.get(website)
 driver.maximize_window()
@@ -120,3 +127,4 @@ with open('pretty_table.html', 'w') as f:
 today = date.today()
 date_now_dt= today.strftime("%m/%d/%Y")
 emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com, #NYOPS@IGT.com","Current Applications '{}'".format(date_now_dt), html_table_blue_light, [])
+# emailFuctions.send_email_bodyHtml("156.24.14.132","do.not.reply@igt-noreply.com","carlos.vegabello@igt.com","Current Applications '{}'".format(date_now_dt), html_table_blue_light, [])
